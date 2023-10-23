@@ -1,0 +1,11 @@
+.image {
+  animation: loader 2.5s infinite;
+}
+@keyframes loader {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}
