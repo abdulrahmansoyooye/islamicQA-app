@@ -76,15 +76,15 @@ const Home = ({ mode, setMode }) => {
             >
               <SECTION2
                 headText={"Try it"}
-                content1={"Can you provide a customized experience"}
-                content2={"Can i become a super hero, by mosquito bite."}
+                content1={"Can you tell me how to perform Hajj ? "}
+                content2={
+                  "Can I take my ritual bath alongside with Firday bath ?"
+                }
               />
               <SECTION2
                 headText={"What can do?"}
-                content1={"Simulate conversation with human users"}
-                content2={
-                  "Can provide 24/7 best customer support in the world."
-                }
+                content1={"Simulate islamic answers with human users"}
+                content2={"Can provide 10 answers per hour."}
               />
               <SECTION2
                 headText={"What can't do?"}

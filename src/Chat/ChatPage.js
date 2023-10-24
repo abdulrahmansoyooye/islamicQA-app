@@ -214,17 +214,22 @@ const ChatPage = () => {
                 }}
               >
                 {" "}
-                <ChatOutlined />
                 {loading ? (
                   <CircularProgress />
                 ) : (
                   <Box
                     sx={{
                       wordBreak: "break-word",
+                      display: response ? "none" : "flex",
+                      gap: "1rem",
+                      width: "100%",
                     }}
                   >
-                    <Typography className="h1" variant="h5">
-                      {answer[index]}
+                    <ChatOutlined />
+
+                    <Typography fontSize="16px">
+                      bhgvcfxdzsxdcfgvbhjnnbhgvcfxdzsxdcfgvbhjmkjnbhgvcfxdcgvbhjnbhvcxzxcfgvbhjnbhgvcxzxdcfgvbhjnmjnbhgvcfxdzssxdcfgvbhjnmkjnbhgvcxdsxcgvbhjnmkjnbhgvcfxddcfgvbhjkjncfxdszawsedtyuioiuytrewq
+                      QAWGYUHJHGFDSAasrfthujuhgfdsaasduhjiuhgfdsa
                     </Typography>
                   </Box>
                 )}
@@ -246,7 +251,6 @@ const ChatPage = () => {
             </Box>
           ))}
         </Box>
-        {/* </Box> */}
         {/* Question */}
         <Box
           sx={{
