@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import {
   Alert,
@@ -8,14 +8,16 @@ import {
   CircularProgress,
   Divider,
   IconButton,
+  LinearProgress,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 import { TypeAnimation } from "react-type-animation";
 import { useTheme } from "@emotion/react";
-import { Add, ChatOutlined, Menu, Send } from "@mui/icons-material";
+import { ChatOutlined, Close, HomeRounded, Send } from "@mui/icons-material";
 import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 const ChatPage = () => {
   const theme = useTheme();
   const light = theme.palette.neutral.light;
@@ -29,6 +31,13 @@ const ChatPage = () => {
   const [value, setValue] = useState("");
   const [qa, qaToggle] = useState(false);
   const [cookies] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   const setQA = () => {
     mobileScreens && qaToggle(!qa);
   };
@@ -66,6 +75,9 @@ const ChatPage = () => {
     setQuestion([...question, value]);
     GetAnswer();
   };
+  useMemo(() => {
+    scrollToBottom();
+  }, [question]);
   return (
     <Box
       sx={{
@@ -103,8 +115,8 @@ const ChatPage = () => {
             </Typography>
             <Typography fontSize={"12px"}>200+ conversations</Typography>
           </Box>{" "}
-          <IconButton>
-            <Add />
+          <IconButton onClick={() => navigate("/")}>
+            <HomeRounded />
           </IconButton>{" "}
         </Box>
 
@@ -133,6 +145,7 @@ const ChatPage = () => {
             sx={{
               display: "flex",
               alignItems: "center",
+              backgroundColor: alt,
             }}
           >
             <IconButton
@@ -142,14 +155,17 @@ const ChatPage = () => {
               }}
               onClick={() => qaToggle(!qa)}
             >
-              <Menu />
+              <Close />
             </IconButton>
-            <Typography variant="h4">Islamic Question and answer</Typography>
+            <Typography variant="h4" fontWeight={"500"} textAlign={"center"}>
+              Islamic QA
+            </Typography>
           </Box>
         ) : (
           <Box
             sx={{
               display: "flex",
+              backgroundColor: alt,
               alignItems: "center",
             }}
           >
@@ -162,7 +178,9 @@ const ChatPage = () => {
             >
               <ChatOutlined />
             </IconButton>
-            <Typography variant="h4">Islamic Question and answer</Typography>
+            <Typography variant="h4" fontWeight={"500"} textAlign={"center"}>
+              Islamic QA
+            </Typography>
           </Box>
         )}
         <Box
@@ -211,10 +229,15 @@ const ChatPage = () => {
                   gap: "1rem",
                   p: "2rem 3rem",
                   height: "50vh",
+                  lineHeight: "1.3",
                 }}
               >
                 {loading ? (
-                  <CircularProgress />
+                  <LinearProgress
+                    sx={{
+                      color: alt,
+                    }}
+                  />
                 ) : (
                   <Box
                     sx={{
@@ -264,7 +287,7 @@ const ChatPage = () => {
         >
           <TextField
             sx={{
-              width: "90%",
+              width: "75%",
               m: "1rem auto",
 
               backgroundColor: alt,
@@ -280,7 +303,14 @@ const ChatPage = () => {
             }}
           />
           {value !== "" && (
-            <IconButton onClick={submitQuestion}>
+            <IconButton
+              onClick={submitQuestion}
+              sx={{
+                position: "absolute",
+                right: "4rem",
+                top: "2rem",
+              }}
+            >
               <Send />
             </IconButton>
           )}

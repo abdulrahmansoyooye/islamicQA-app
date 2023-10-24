@@ -22,7 +22,7 @@ import Loading from "../Loader/Loading";
 
 const Home = ({ mode, setMode }) => {
   const theme = useTheme();
-  const light = theme.palette.neutral.light;
+  const light = theme.palette.primary.dark;
   const alt = theme.palette.background.alt;
   const mobileScreens = useMediaQuery("(max-width:800px)");
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const Home = ({ mode, setMode }) => {
               }}
             >
               <Typography
-                variant="h2"
+                fontSize={"30px"}
                 fontWeight="500"
                 sx={{
                   m: "1rem",
@@ -60,7 +60,7 @@ const Home = ({ mode, setMode }) => {
               >
                 Welcome to Islamic Q&A
               </Typography>
-              <Typography color={light} variant="h5">
+              <Typography variant="h5">
                 Your AI-powered Islamic chatbot
               </Typography>
             </Box>
@@ -121,10 +121,15 @@ const Home = ({ mode, setMode }) => {
               fontSize: "14px",
             }}
           >
-            <Typography>
+            <Typography textAlign={"center"}>
               {" "}
               2023 © Soyooye. Crafted By{" "}
-              <a href="https://www.linkedin.com/in/abdulrahman-soyooye-814435294/">
+              <a
+                href="https://www.linkedin.com/in/abdulrahman-soyooye-814435294/"
+                style={{
+                  color: light,
+                }}
+              >
                 {" "}
                 Abdulrahman
               </a>
