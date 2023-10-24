@@ -58,7 +58,10 @@ const Login = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
-      setResponse({ message: error.message, Code: error.code });
+      setResponse({
+        message: error.message,
+        Code: error?.response.data.message,
+      });
     }
   };
   return (

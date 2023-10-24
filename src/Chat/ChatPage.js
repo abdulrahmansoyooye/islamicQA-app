@@ -35,7 +35,7 @@ const ChatPage = () => {
   const GetAnswer = async () => {
     const options = {
       method: "GET",
-      // url: "https://islam-ai-api.p.rapidapi.com/api/bot",
+      url: "https://islam-ai-api.p.rapidapi.com/api/bot",
       params: {
         question: value,
       },
