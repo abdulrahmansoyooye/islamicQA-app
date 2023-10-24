@@ -43,7 +43,7 @@ const Register = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3001/users/register",
+        "https://islamicqa-server.onrender.com/users/register",
         userData
       );
       if (res.status === 201) {
@@ -55,7 +55,10 @@ const Register = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
-      error && setResponse(error.response?.data?.message);
+      setResponse({
+        message: error.message,
+        Code: error?.response.data.message,
+      });
     }
   };
   return (
@@ -122,8 +125,8 @@ const Register = () => {
               backgroundColor: background,
             }}
           >
-            <AlertTitle>Error</AlertTitle>
-            <Typography> {response}</Typography>
+            <AlertTitle>{response.Code}</AlertTitle>
+            <Typography> {response.message}</Typography>
           </Alert>
         )}
         <Box

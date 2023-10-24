@@ -8,11 +8,11 @@ import {
   CircularProgress,
   Divider,
   IconButton,
-  LinearProgress,
   TextField,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import { TypeAnimation } from "react-type-animation";
 import { useTheme } from "@emotion/react";
 import { Add, ChatOutlined, Menu, Send } from "@mui/icons-material";
 import { useCookies } from "react-cookie";
@@ -35,7 +35,7 @@ const ChatPage = () => {
   const GetAnswer = async () => {
     const options = {
       method: "GET",
-      url: "https://islam-ai-api.p.rapidapi.com/api/bot",
+      // url: "https://islam-ai-api.p.rapidapi.com/api/bot",
       params: {
         question: value,
       },
@@ -213,7 +213,6 @@ const ChatPage = () => {
                   height: "50vh",
                 }}
               >
-                {" "}
                 {loading ? (
                   <CircularProgress />
                 ) : (
@@ -226,10 +225,13 @@ const ChatPage = () => {
                     }}
                   >
                     <ChatOutlined />
-
-                    <Typography fontSize="16px">
-                      bhgvcfxdzsxdcfgvbhjnnbhgvcfxdzsxdcfgvbhjmkjnbhgvcfxdcgvbhjnbhvcxzxcfgvbhjnbhgvcxzxdcfgvbhjnmjnbhgvcfxdzssxdcfgvbhjnmkjnbhgvcxdsxcgvbhjnmkjnbhgvcfxddcfgvbhjkjncfxdszawsedtyuioiuytrewq
-                      QAWGYUHJHGFDSAasrfthujuhgfdsaasduhjiuhgfdsa
+                    <Typography>
+                      <TypeAnimation
+                        sequence={[answer[index], 1000]}
+                        speed={60}
+                        style={{ fontSize: "16px" }}
+                        cursor="false"
+                      />
                     </Typography>
                   </Box>
                 )}

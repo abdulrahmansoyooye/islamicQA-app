@@ -10,6 +10,7 @@ import { UserContext } from "./context/userContext";
 import Login from "./Auth/Login";
 import Register from "./Auth/Register";
 import { useCookies } from "react-cookie";
+import AnimatedCursor from "react-animated-cursor";
 function App() {
   const [cookies] = useCookies(["access_token"]);
   const [mode, setMode] = useState("light");
@@ -19,7 +20,14 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-
+        <AnimatedCursor
+          innerSize={8}
+          color="148, 0, 255"
+          outerSize={8}
+          outerAlpha={0.2}
+          innerScale={0.7}
+          outerScale={5}
+        />
         <Routes>
           <Route index element={<Home mode={mode} setMode={setMode} />} />
           <Route

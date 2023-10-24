@@ -100,6 +100,7 @@ const Home = ({ mode, setMode }) => {
                 padding: "0.75rem 1.5rem",
                 m: "2rem auto",
                 borderRadius: "2rem",
+                width: "50%",
                 position: "relative",
                 top: "0",
               }}
@@ -122,7 +123,11 @@ const Home = ({ mode, setMode }) => {
           >
             <Typography>
               {" "}
-              2023 © Soyooye. Crafted By <span style={{}}> Abdulrahman</span>
+              2023 © Soyooye. Crafted By{" "}
+              <a href="https://www.linkedin.com/in/abdulrahman-soyooye-814435294/">
+                {" "}
+                Abdulrahman
+              </a>
             </Typography>
             <Box
               sx={{
@@ -137,7 +142,7 @@ const Home = ({ mode, setMode }) => {
               >
                 <LinkedIn />
               </IconButton>
-              <IconButton href="https://github.com/abdulrahmansoyooye/">
+              <IconButton href="https://github.com/abdulrahmansoyooye/islamicqa-app">
                 <GitHub />
               </IconButton>
               <IconButton href="https://wa.link/3cugzs" target="_blank">

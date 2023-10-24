@@ -46,7 +46,7 @@ const Login = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3001/users/login",
+        "https://islamicqa-server.onrender.com/users/login",
         userData
       );
       if (res.status === 200) {
@@ -58,7 +58,7 @@ const Login = () => {
     } catch (error) {
       setLoading(false);
       console.log(error);
-      error && setResponse(error.response?.data?.message);
+      setResponse({ message: error.message, Code: error.code });
     }
   };
   return (
@@ -124,8 +124,8 @@ const Login = () => {
               backgroundColor: background,
             }}
           >
-            <AlertTitle>Error</AlertTitle>
-            <Typography> {response}</Typography>
+            <AlertTitle>{response.Code}</AlertTitle>
+            <Typography> {response.message}</Typography>
           </Alert>
         )}
         <Box
