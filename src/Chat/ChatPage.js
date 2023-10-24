@@ -211,7 +211,6 @@ const ChatPage = () => {
                   gap: "1rem",
                   p: "2rem 3rem",
                   height: "50vh",
-                  wordBreak: "break-word",
                 }}
               >
                 {" "}
@@ -219,9 +218,15 @@ const ChatPage = () => {
                 {loading ? (
                   <CircularProgress />
                 ) : (
-                  <Typography className="h1" variant="h5">
-                    {answer[index]}
-                  </Typography>
+                  <Box
+                    sx={{
+                      wordBreak: "break-word",
+                    }}
+                  >
+                    <Typography className="h1" variant="h5">
+                      {answer[index]}
+                    </Typography>
+                  </Box>
                 )}
                 {response && (
                   <Alert
