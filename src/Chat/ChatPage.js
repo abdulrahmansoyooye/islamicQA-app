@@ -342,7 +342,7 @@ const Chat = ({ setQA }) => {
       >
         <ChatOutlined />
       </IconButton>
-      <Typography fontSize={"13px"}>200+ conversations</Typography>
+      <Typography fontSize={"13px"}>Start a new conversation</Typography>
     </Box>
   );
 };
