@@ -13,7 +13,7 @@ import { useCookies } from "react-cookie";
 import AnimatedCursor from "react-animated-cursor";
 function App() {
   const [cookies] = useCookies(["access_token"]);
-  const [mode, setMode] = useState("light");
+  const [mode, setMode] = useState("dark");
   const theme = useMemo(() => createTheme(themeSetting(mode)), [mode]);
 
   return (

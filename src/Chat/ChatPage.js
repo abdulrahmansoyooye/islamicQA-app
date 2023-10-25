@@ -180,11 +180,6 @@ const ChatPage = () => {
             </IconButton>
             <Typography variant="h4" fontWeight={"500"} textAlign={"center"}>
               Islamic QA
-              <LinearProgress
-                sx={{
-                  color: alt,
-                }}
-              />
             </Typography>
           </Box>
         )}
