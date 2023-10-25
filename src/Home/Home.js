@@ -11,18 +11,13 @@ import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import Navbar from "../components/Navbar";
-import {
-  Facebook,
-  GitHub,
-  Instagram,
-  LinkedIn,
-  WhatsApp,
-} from "@mui/icons-material";
+import { GitHub, LinkedIn, WhatsApp } from "@mui/icons-material";
 import Loading from "../Loader/Loading";
 
 const Home = ({ mode, setMode }) => {
   const theme = useTheme();
   const light = theme.palette.primary.dark;
+  const main = theme.palette.primary.main;
   const alt = theme.palette.background.alt;
   const mobileScreens = useMediaQuery("(max-width:800px)");
   const navigate = useNavigate();
@@ -43,7 +38,7 @@ const Home = ({ mode, setMode }) => {
           <Box
             sx={{
               width: mobileScreens ? "90%" : "70%",
-              m: "2rem  auto",
+              m: "4rem  auto ",
             }}
           >
             <Box
@@ -52,7 +47,7 @@ const Home = ({ mode, setMode }) => {
               }}
             >
               <Typography
-                fontSize={"30px"}
+                fontSize={"35px"}
                 fontWeight="500"
                 sx={{
                   m: "1rem",
@@ -60,7 +55,7 @@ const Home = ({ mode, setMode }) => {
               >
                 Welcome to Islamic Q&A
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" color={main}>
                 Your AI-powered Islamic chatbot
               </Typography>
             </Box>
@@ -121,7 +116,7 @@ const Home = ({ mode, setMode }) => {
               fontSize: "14px",
             }}
           >
-            <Typography textAlign={"center"}>
+            <Typography textAlign={"left"}>
               {" "}
               2023 © Soyooye. Crafted By{" "}
               <a

@@ -26,7 +26,7 @@ export const themeSetting = (mode) => {
         },
         styleOverrides: {
           root: {
-            color: "#fff",
+            color: mode === "dark" ? "#000" : "#fff",
           },
         },
       },
@@ -39,14 +39,14 @@ export const themeSetting = (mode) => {
             // palette values for dark mode
             primary: {
               dark: "#E4F1FF",
-              main: "#27005D",
+              main: "#FFFD8C",
               light: "#FFFD8C",
             },
             neutral: {
               dark: "#E4F1FF",
               main: "#AED2FF",
               light: "#0f172a",
-              text: "#FFF",
+              text: "#000",
             },
             background: {
               default: "#0f172a",

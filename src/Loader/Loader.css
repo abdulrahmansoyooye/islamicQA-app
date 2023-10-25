@@ -1,11 +1,15 @@
 .image {
   animation: loader 2.5s infinite;
+
+  transition: transform;
 }
 @keyframes loader {
   0% {
     rotate: 0deg;
+    transform: scale(1.2);
   }
   100% {
+    transform: scale(1.5);
     rotate: 360deg;
   }
 }

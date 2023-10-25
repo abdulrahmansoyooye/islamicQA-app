@@ -180,6 +180,11 @@ const ChatPage = () => {
             </IconButton>
             <Typography variant="h4" fontWeight={"500"} textAlign={"center"}>
               Islamic QA
+              <LinearProgress
+                sx={{
+                  color: alt,
+                }}
+              />
             </Typography>
           </Box>
         )}
@@ -233,11 +238,10 @@ const ChatPage = () => {
                 }}
               >
                 {loading ? (
-                  <LinearProgress
-                    sx={{
-                      color: alt,
-                    }}
-                  />
+                  <Box width={"100%"} fontSize={"18px"}>
+                    Composing answer, Please wait
+                    <LinearProgress color="secondary" />
+                  </Box>
                 ) : (
                   <Box
                     sx={{

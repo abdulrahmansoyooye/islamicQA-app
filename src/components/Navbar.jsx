@@ -14,8 +14,6 @@ const Navbar = ({ mode, setMode }) => {
 
   const logout = () => {
     removeCookie("access_token", { path: "/" });
-
-    console.log(cookies);
   };
   return (
     <Box
