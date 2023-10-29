@@ -1,11 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import axios from "axios";
 import {
   Alert,
   AlertTitle,
   Avatar,
   Box,
-  CircularProgress,
+  Button,
   Divider,
   IconButton,
   LinearProgress,
@@ -15,10 +15,29 @@ import {
 } from "@mui/material";
 import { TypeAnimation } from "react-type-animation";
 import { useTheme } from "@emotion/react";
-import { ChatOutlined, Close, HomeRounded, Send } from "@mui/icons-material";
+import {
+  ChatOutlined,
+  Close,
+  HomeRounded,
+  Mic,
+  MicOff,
+  Send,
+  Telegram,
+  VoiceChat,
+} from "@mui/icons-material";
 import { useCookies } from "react-cookie";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 import { useNavigate } from "react-router-dom";
 const ChatPage = () => {
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+
   const theme = useTheme();
   const light = theme.palette.neutral.light;
   const alt = theme.palette.background.alt;
@@ -41,12 +60,26 @@ const ChatPage = () => {
   const setQA = () => {
     mobileScreens && qaToggle(!qa);
   };
+
+  const submitQuestion = () => {
+    setValue("");
+    resetTranscript();
+
+    setResponse("");
+    setLoading(true);
+    setQuestion([...question, value || transcript]);
+    GetAnswer();
+  };
+  useMemo(() => {
+    scrollToBottom();
+  }, [question]);
+
   const GetAnswer = async () => {
     const options = {
       method: "GET",
       url: "https://islam-ai-api.p.rapidapi.com/api/bot",
       params: {
-        question: value,
+        question: value || transcript,
       },
       headers: {
         "X-RapidAPI-Key": "cfe7c39dc6mshc0bd6f5944fcaabp14cf7bjsn1f7a1add45c1",
@@ -68,16 +101,9 @@ const ChatPage = () => {
     }
   };
 
-  const submitQuestion = () => {
-    setValue("");
-    setResponse("");
-    setLoading(true);
-    setQuestion([...question, value]);
-    GetAnswer();
-  };
-  useMemo(() => {
-    scrollToBottom();
-  }, [question]);
+  if (!browserSupportsSpeechRecognition) {
+    return <Typography>Browser doesn't support speech recognition.</Typography>;
+  }
   return (
     <Box
       sx={{
@@ -279,40 +305,49 @@ const ChatPage = () => {
         <Box
           sx={{
             display: "flex",
-            gap: "0",
-            position: "relative",
+            alignItems: "center",
             borderTop: "1px solid #9e9999cc",
           }}
         >
-          <TextField
+          <Box
             sx={{
               width: "75%",
               m: "1rem auto",
-
               backgroundColor: alt,
               padding: "1.5rem",
               borderRadius: "0.5rem",
+              display: "flex",
+              justifyContent: "space-between",
             }}
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            variant="standard"
-            placeholder="Ask a question"
-            InputProps={{
-              disableUnderline: true,
-            }}
-          />
-          {value !== "" && (
-            <IconButton
-              onClick={submitQuestion}
-              sx={{
-                position: "absolute",
-                right: "4rem",
-                top: "2rem",
+          >
+            <TextField
+              value={value || transcript}
+              onChange={(e) => setValue(e.target.value)}
+              variant="standard"
+              placeholder="Ask a question"
+              InputProps={{
+                disableUnderline: true,
               }}
-            >
-              <Send />
-            </IconButton>
-          )}
+            />
+            {transcript || value !== "" ? (
+              <IconButton onClick={submitQuestion}>
+                <Telegram />
+              </IconButton>
+            ) : (
+              ""
+            )}
+          </Box>
+          <Box>
+            {listening ? (
+              <IconButton onClick={SpeechRecognition.stopListening}>
+                <Mic />
+              </IconButton>
+            ) : (
+              <IconButton onClick={SpeechRecognition.startListening}>
+                <MicOff />
+              </IconButton>
+            )}
+          </Box>
         </Box>
       </Box>
     </Box>
