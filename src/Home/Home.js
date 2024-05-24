@@ -46,16 +46,22 @@ const Home = ({ mode, setMode }) => {
                 textAlign: "center",
               }}
             >
-              <Typography
+              <Box
                 fontSize={"35px"}
                 fontWeight="500"
-                sx={{
-                  m: "1rem",
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: "1rem",
+                  m: "1rem auto",
                 }}
               >
-                Welcome to Islamic Q&A
-              </Typography>
-              <Typography variant="h5" color={main}>
+                Welcome to{" "}
+                <Typography variant="h1" color={main}>
+                  Islamic Q&A
+                </Typography>
+              </Box>
+              <Typography variant="h6" color={light}>
                 Your AI-powered Islamic chatbot
               </Typography>
             </Box>

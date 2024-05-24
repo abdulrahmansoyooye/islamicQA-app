@@ -1,5 +1,5 @@
 import { useTheme } from "@emotion/react";
-import { Avatar, Box, IconButton } from "@mui/material";
+import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import { DarkMode, LightMode, Login, Logout } from "@mui/icons-material";
 import React from "react";
 import { useCookies } from "react-cookie";
@@ -49,26 +49,38 @@ const Navbar = ({ mode, setMode }) => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "space-around",
           alignItems: "center",
           gap: "1rem",
           width: "60%",
         }}
       >
         {" "}
-        <IconButton
+        {/* <IconButton
           onClick={() => (mode === "dark" ? setMode("light") : setMode("dark"))}
         >
           {mode === "dark" ? <LightMode /> : <DarkMode />}
-        </IconButton>
+        </IconButton> */}
         {cookies.access_token ? (
-          <IconButton onClick={logout}>
-            <Logout />
-          </IconButton>
+          <Box
+            onClick={logout}
+            style={{
+              display: "flex",
+              gap: "1rem",
+            }}
+          >
+            <Typography>Logout</Typography> <Logout />
+          </Box>
         ) : (
-          <IconButton onClick={() => navigate("/auth/login")}>
-            <Login />
-          </IconButton>
+          <Box
+            style={{
+              display: "flex",
+              gap: "1rem",
+            }}
+            onClick={() => navigate("/auth/login")}
+          >
+            <Typography>Login</Typography> <Login />
+          </Box>
         )}
         <Avatar
           sx={{
@@ -79,7 +91,7 @@ const Navbar = ({ mode, setMode }) => {
           }}
         >
           {cookies.access_token
-            ? cookies.access_token.username.toUpperCase().slice(0, 2)
+            ? cookies.access_token?.username?.toUpperCase().slice(0, 2)
             : "NA"}
         </Avatar>
       </Box>

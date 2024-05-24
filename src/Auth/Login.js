@@ -208,9 +208,8 @@ const Login = () => {
             Don't Have an account?Sign Up here
           </Typography>
         </Box>
-        <Divider />
         {/* Google And Facebook Auth */}
-        <Typography textAlign={"center"} fontWeight={"500"} mt="1rem">
+        {/* <Typography textAlign={"center"} fontWeight={"500"} mt="1rem">
           OR SIGN IN WITH
         </Typography>
         <Box
@@ -257,7 +256,7 @@ const Login = () => {
           >
             <FacebookOutlined /> <Typography>Facebook</Typography>
           </Box>
-        </Box>
+        </Box> */}
       </form>
     </Box>
   );

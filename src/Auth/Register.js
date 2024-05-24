@@ -230,7 +230,7 @@ const Register = () => {
           </Typography>
         </Box>
         {/* Google And Facebook Auth */}
-        <Divider />
+        {/* <Divider />
         <Typography textAlign={"center"} fontWeight={"500"} mt="1rem">
           OR SIGN UP WITH
         </Typography>
@@ -279,7 +279,7 @@ const Register = () => {
           >
             <FacebookOutlined /> <Typography>Facebook</Typography>
           </Box>
-        </Box>
+        </Box> */}
       </form>
     </Box>
   );

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import {
   Alert,
@@ -38,20 +38,19 @@ const ChatPage = () => {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
+  const [question, setQuestion] = useState("");
+  const [QuestionAndAnswer, setQuestionAndAnswer] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState("");
+  const [qa, qaToggle] = useState(false);
+  const [cookies] = useCookies(["access_token"]);
+
+  const navigate = useNavigate();
+  const mobileScreens = useMediaQuery("(max-width:800px)");
   const theme = useTheme();
   const light = theme.palette.neutral.light;
   const alt = theme.palette.background.alt;
   const text = theme.palette.neutral.text;
-  const mobileScreens = useMediaQuery("(max-width:800px)");
-  const [question, setQuestion] = useState([]);
-  const [answer, setAnswer] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState("");
-  const [value, setValue] = useState("");
-  const [qa, qaToggle] = useState(false);
-  const [cookies] = useCookies(["access_token"]);
-  const navigate = useNavigate();
-
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -60,44 +59,49 @@ const ChatPage = () => {
   const setQA = () => {
     mobileScreens && qaToggle(!qa);
   };
-
-  const submitQuestion = () => {
-    setValue("");
+  const submitQuestions = () => {
+    setQuestion("");
     resetTranscript();
-
     setResponse("");
     setLoading(true);
-    setQuestion([...question, value || transcript]);
+    setQuestionAndAnswer([]);
     GetAnswer();
   };
-  useMemo(() => {
-    scrollToBottom();
-  }, [question]);
+  useEffect(() => {
+    const fetchQA = async () => {
+      const userId = cookies.access_token.userId;
+      try {
+        const response = await axios.get(`http://localhost:3001/ask/${userId}`);
+        setQuestionAndAnswer([...QuestionAndAnswer, ...response.data]);
+        console.log(QuestionAndAnswer);
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setLoading(false);
+        setResponse({
+          message: err.message,
+          Code: err?.response.data.message,
+        });
+      }
+    };
+    fetchQA();
+  }, []);
 
   const GetAnswer = async () => {
-    const options = {
-      method: "GET",
-      url: "https://islam-ai-api.p.rapidapi.com/api/bot",
-      params: {
-        question: value || transcript,
-      },
-      headers: {
-        "X-RapidAPI-Key": "cfe7c39dc6mshc0bd6f5944fcaabp14cf7bjsn1f7a1add45c1",
-        "X-RapidAPI-Host": "islam-ai-api.p.rapidapi.com",
-      },
-    };
-
+    const userId = cookies.access_token.userId;
     try {
-      const response = await axios.request(options);
-
-      if (response.status === 200) {
-        setLoading(false);
-        setAnswer([...answer, response.data.response]);
-      }
-    } catch (error) {
-      setResponse({ message: error.message, Code: error.code });
-      console.log(error);
+      const response = await axios.post(`http://localhost:3001/ask/${userId}`, {
+        question: question || transcript,
+      });
+      setQuestionAndAnswer((prev) => [...prev, response.data]);
       setLoading(false);
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      setResponse({
+        message: err.message,
+        Code: err?.response.data.message,
+      });
     }
   };
 
@@ -216,9 +220,10 @@ const ChatPage = () => {
           }}
         >
           {/* Chat Box */}
-          {question.map((value, index) => (
+
+          {QuestionAndAnswer?.map(({ question, answer }, index) => (
             <Box key={`box-${index}`}>
-              {/* Question Area */}
+              {/* Questions Area */}
               <Divider />
               <Box
                 sx={{
@@ -242,10 +247,9 @@ const ChatPage = () => {
                     ? cookies.access_token.username.toUpperCase().slice(0, 2)
                     : "NA"}
                 </Avatar>
-                <Typography fontSize="16px"> {value}</Typography>
+                <Typography fontSize="16px"> {question}</Typography>
               </Box>
               <Divider />
-
               {/* Answer Area */}
 
               <Box
@@ -254,35 +258,29 @@ const ChatPage = () => {
                   display: "flex",
                   gap: "1rem",
                   p: "2rem 3rem",
-                  height: "50vh",
+                  minHeight: "400px",
                   lineHeight: "1.3",
                 }}
               >
-                {loading ? (
-                  <Box width={"100%"} fontSize={"18px"}>
-                    Composing answer, Please wait
-                    <LinearProgress color="secondary" />
-                  </Box>
-                ) : (
-                  <Box
-                    sx={{
-                      wordBreak: "break-word",
-                      display: response ? "none" : "flex",
-                      gap: "1rem",
-                      width: "100%",
-                    }}
-                  >
-                    <ChatOutlined />
-                    <Typography>
-                      <TypeAnimation
-                        sequence={[answer[index], 1000]}
-                        speed={60}
-                        style={{ fontSize: "16px" }}
-                        cursor="false"
-                      />
-                    </Typography>
-                  </Box>
-                )}
+                <Box
+                  sx={{
+                    wordBreak: "break-word",
+                    display: response ? "none" : "flex",
+                    gap: "1rem",
+                    width: "100%",
+                  }}
+                >
+                  <ChatOutlined />
+                  <Typography>
+                    <TypeAnimation
+                      sequence={[answer, 1000]}
+                      speed={60}
+                      style={{ fontSize: "16px" }}
+                      cursor="false"
+                    />
+                  </Typography>
+                </Box>
+
                 {response && (
                   <Alert
                     severity="error"
@@ -301,10 +299,11 @@ const ChatPage = () => {
             </Box>
           ))}
         </Box>
-        {/* Question */}
+        {/*Asking Questions */}
         <Box
           sx={{
             display: "flex",
+            justifyContent: "space-evenly",
             alignItems: "center",
             borderTop: "1px solid #9e9999cc",
           }}
@@ -312,7 +311,7 @@ const ChatPage = () => {
           <Box
             sx={{
               width: "75%",
-              m: "1rem auto",
+              m: "1rem 0",
               backgroundColor: alt,
               padding: "1.5rem",
               borderRadius: "0.5rem",
@@ -321,16 +320,16 @@ const ChatPage = () => {
             }}
           >
             <TextField
-              value={value || transcript}
-              onChange={(e) => setValue(e.target.value)}
+              value={question || transcript}
+              onChange={(e) => setQuestion(e.target.value)}
               variant="standard"
               placeholder="Ask a question"
               InputProps={{
                 disableUnderline: true,
               }}
             />
-            {transcript || value !== "" ? (
-              <IconButton onClick={submitQuestion}>
+            {transcript || question !== "" ? (
+              <IconButton onClick={submitQuestions}>
                 <Telegram />
               </IconButton>
             ) : (
