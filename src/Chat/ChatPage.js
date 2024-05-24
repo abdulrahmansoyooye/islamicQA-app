@@ -100,7 +100,6 @@ const ChatPage = () => {
       setLoading(false);
       setResponse({
         message: err.message,
-        Code: err?.response.data.message,
       });
     }
   };
